@@ -1,0 +1,54 @@
+---
+title: 'Peer-graded Assignment: Fireballs and bolide'
+author: "Nicolas"
+date: "8 décembre 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(dplyr)
+library(plotly)
+library(RColorBrewer)
+```
+
+#Summary
+Fireballs and bolides are astronomical terms for exceptionally bright meteors that are spectacular enough to to be seen over a very wide area. 
+
+NASA provides a chronological data summary of fireball and bolide events provided by U.S. Government sensors. Ground-based observers sometimes also witness these events at night, or much more rarely in daylight, as impressive atmospheric light displays. 
+
+The leaflet provides information on the date and time of each fireball event, its geographic location, its approximate total optical radiated energy (color) and its calculated total impact energy (circle size). 
+
+#Data Download
+
+```{r, cache=TRUE}
+Fireball_And_Bolide_Reports <- read.csv("Fireball_And_Bolide_Reports.csv")
+```
+ 
+#Leaflet Example
+
+```{r, echo=FALSE}
+library(leaflet)
+m <- leaflet() %>% 
+        addTiles() %>%
+        addCircleMarkers(lng=Fireball_And_Bolide_Reports$Longitude..Deg.,
+                   lat=Fireball_And_Bolide_Reports$Latitude..Deg.,
+                   radius=log(Fireball_And_Bolide_Reports$Calculated.Total.Impact.Energy..kt.),
+                   popup=Fireball_And_Bolide_Reports$Date.Time...Peak.Brightness..UT.)
+m
+```
+
+
+#Leaflet Code
+
+```{r, eval=FALSE}
+library(leaflet)
+m <- leaflet() %>% 
+        addTiles() %>%
+        addCircleMarkers(lng=Fireball_And_Bolide_Reports$Longitude..Deg.,
+                   lat=Fireball_And_Bolide_Reports$Latitude..Deg.,
+                   radius=log(Fireball_And_Bolide_Reports$Calculated.Total.Impact.Energy..kt.),
+                   popup=Fireball_And_Bolide_Reports$Date.Time...Peak.Brightness..UT.)
+m
+```
